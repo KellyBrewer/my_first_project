@@ -285,3 +285,515 @@ if(nrow(tmp) > 0) {
 
 ```
 
+### SHBG
+```{r eda_range_shbg, echo=FALSE, error=FALSE, message=TRUE, out.width="50%"}
+
+# SHBG - Technical and Logical Range Checks
+for (i in 1:nrow(m.df)) {
+  if(is.na(m.df[[i,"shbg_assay_method"]])) {
+    m.df[[i,"shbg_tech_flag"]] <- 0
+    m.df[[i,"shbg_log_flag"]] <- 0
+  }
+  else for (j in colnames(shbg.ranges)) {
+    if (m.df[[i,"shbg_assay_method"]] == as.numeric(j)) {
+      if (m.df[[i,"shbg"]] > shbg.ranges[[1,j]]) {
+        m.df[[i,"shbg_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"shbg"]] < shbg.ranges[[2,j]]) {
+        m.df[[i,"shbg_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"shbg"]] > shbg.ranges[[3,j]]) {
+        m.df[[i,"shbg_log_flag"]] <- 1
+      }
+      if (m.df[[i,"shbg"]] < shbg.ranges[[4,j]]) {
+        m.df[[i,"shbg_log_flag"]] <- 1
+    }
+    }
+  }
+}
+datatable(shbg.ranges, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+tmp <- m.df[m.df$shbg_tech_flag == 1,]
+tmp <- tmp[,c("sample_id", "shbg", "shbg_assay_method")]
+
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$shbg_tech_flag == 1)), "values that are outside of SHBG technical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the SHBG technical limits\n\n")
+
+
+tmp <- m.df[m.df$shbg_log_flag == 1,]
+tmp <- tmp[,c("sample_id", "shbg", "shbg_assay_method")]
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$shbg_log_flag == 1)), "values that are outside of SHBG logical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the SHBG logical limits\n\n")
+
+```
+
+### DHEAS
+```{r eda_range_dheas, echo=FALSE, error=FALSE, message=TRUE, out.width="50%"}
+
+# DHEAS - Technical and Logical Range Checks
+for (i in 1:nrow(m.df)) {
+  if(is.na(m.df[[i,"dheas_assay_method"]])) {
+    m.df[[i,"dheas_tech_flag"]] <- 0
+    m.df[[i,"dheas_log_flag"]] <- 0
+  }
+  else for (j in colnames(dheas.ranges)) {
+    if (m.df[[i,"dheas_assay_method"]] == as.numeric(j)) {
+      if (m.df[[i,"dheas"]] > dheas.ranges[[1,j]]) {
+        m.df[[i,"dheas_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"dheas"]] < dheas.ranges[[2,j]]) {
+        m.df[[i,"dheas_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"dheas"]] > dheas.ranges[[3,j]]) {
+        m.df[[i,"dheas_log_flag"]] <- 1
+      }
+      if (m.df[[i,"dheas"]] < dheas.ranges[[4,j]]) {
+        m.df[[i,"dheas_log_flag"]] <- 1
+    }
+    }
+  }
+}
+datatable(dheas.ranges, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+tmp <- m.df[m.df$dheas_tech_flag == 1,]
+tmp <- tmp[,c("sample_id", "dheas", "dheas_assay_method")]
+
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$dheas_tech_flag == 1)), "values that are outside of DHEAS technical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the DHEAS technical limits\n\n")
+
+
+tmp <- m.df[m.df$dheas_log_flag == 1,]
+tmp <- tmp[,c("sample_id", "dheas", "dheas_assay_method")]
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$dheas_log_flag == 1)), "values that are outside of DHEAS logical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the DHEAS logical limits\n\n")
+```
+
+### LH
+```{r eda_range_lh, echo=FALSE, error=FALSE, message=TRUE, out.width="50%"}
+
+# LH - Technical and Logical Range Checks
+for (i in 1:nrow(m.df)) {
+  if(is.na(m.df[[i,"lh_assay_method"]])) {
+    m.df[[i,"lh_tech_flag"]] <- 0
+    m.df[[i,"lh_log_flag"]] <- 0
+  }
+  else for (j in colnames(lh.ranges)) {
+    if (m.df[[i,"lh_assay_method"]] == as.numeric(j)) {
+      if (m.df[[i,"lh"]] > lh.ranges[[1,j]]) {
+        m.df[[i,"lh_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"lh"]] < lh.ranges[[2,j]]) {
+        m.df[[i,"lh_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"lh"]] > lh.ranges[[3,j]]) {
+        m.df[[i,"lh_log_flag"]] <- 1
+      }
+      if (m.df[[i,"lh"]] < lh.ranges[[4,j]]) {
+        m.df[[i,"lh_log_flag"]] <- 1
+    }
+    }
+  }
+}
+datatable(lh.ranges, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+tmp <- m.df[m.df$lh_tech_flag == 1,]
+tmp <- tmp[,c("sample_id", "lh", "lh_assay_method")]
+
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$lh_tech_flag == 1)), "values that are outside of LH technical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the LH technical limits\n\n")
+
+
+tmp <- m.df[m.df$lh_log_flag == 1,]
+tmp <- tmp[,c("sample_id", "lh", "lh_assay_method")]
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$lh_log_flag == 1)), "values that are outside of LH logical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the LH logical limits\n\n")
+```
+
+### FSH
+```{r eda_range_fsh, echo=FALSE, error=FALSE, message=TRUE, out.width="50%"}
+
+# FSH - Technical and Logical Range Checks
+for (i in 1:nrow(m.df)) {
+  if(is.na(m.df[[i,"fsh_assay_method"]])) {
+    m.df[[i,"fsh_tech_flag"]] <- 0
+    m.df[[i,"fsh_log_flag"]] <- 0
+  }
+  else for (j in colnames(fsh.ranges)) {
+    if (m.df[[i,"fsh_assay_method"]] == as.numeric(j)) {
+      if (m.df[[i,"fsh"]] > fsh.ranges[[1,j]]) {
+        m.df[[i,"fsh_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"fsh"]] < fsh.ranges[[2,j]]) {
+        m.df[[i,"fsh_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"fsh"]] > fsh.ranges[[3,j]]) {
+        m.df[[i,"fsh_log_flag"]] <- 1
+      }
+      if (m.df[[i,"fsh"]] < fsh.ranges[[4,j]]) {
+        m.df[[i,"fsh_log_flag"]] <- 1
+    }
+    }
+  }
+}
+datatable(fsh.ranges, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+tmp <- m.df[m.df$fsh_tech_flag == 1,]
+tmp <- tmp[,c("sample_id", "fsh", "fsh_assay_method")]
+
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$fsh_tech_flag == 1)), "values that are outside of FSH technical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the FSH technical limits\n\n")
+
+
+tmp <- m.df[m.df$fsh_log_flag == 1,]
+tmp <- tmp[,c("sample_id", "fsh", "fsh_assay_method")]
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$fsh_log_flag == 1)), "values that are outside of FSH logical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the FSH logical limits\n\n")
+```
+
+
+
+### Fasting Insulin
+```{r eda_range_i0, echo=FALSE, error=FALSE, message=TRUE, out.width="50%"}
+
+# I0 - Technical and Logical Range Checks
+for (i in 1:nrow(m.df)) {
+  if(is.na(m.df[[i,"i0_assay_method"]])) {
+    m.df[[i,"i0_tech_flag"]] <- 0
+    m.df[[i,"i0_log_flag"]] <- 0
+  }
+  else for (j in colnames(i0.ranges)) {
+    if (m.df[[i,"i0_assay_method"]] == as.numeric(j)) {
+      if (m.df[[i,"i0"]] > i0.ranges[[1,j]]) {
+        m.df[[i,"i0_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"i0"]] < i0.ranges[[2,j]]) {
+        m.df[[i,"i0_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"i0"]] > i0.ranges[[3,j]]) {
+        m.df[[i,"i0_log_flag"]] <- 1
+      }
+      if (m.df[[i,"i0"]] < i0.ranges[[4,j]]) {
+        m.df[[i,"i0_log_flag"]] <- 1
+    }
+    }
+  }
+}
+datatable(i0.ranges, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+tmp <- m.df[m.df$i0_tech_flag == 1,]
+tmp <- tmp[,c("sample_id", "i0", "i0_assay_method")]
+
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$i0_tech_flag == 1)), "values that are outside of fasting insulin technical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the fasting insulin technical limits\n\n")
+
+
+tmp <- m.df[m.df$i0_log_flag == 1,]
+tmp <- tmp[,c("sample_id", "i0", "i0_assay_method")]
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$i0_log_flag == 1)), "values that are outside of fasting insulin logical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the fasting insulin logical limits\n\n")
+```
+
+### Fasting Glucose
+```{r eda_range_g0, echo=FALSE, error=FALSE, message=TRUE, out.width="50%"}
+
+# G0 - Technical and Logical Range Checks
+for (i in 1:nrow(m.df)) {
+  if(is.na(m.df[[i,"g0_assay_method"]])) {
+    m.df[[i,"g0_tech_flag"]] <- 0
+    m.df[[i,"g0_log_flag"]] <- 0
+  }
+  else for (j in colnames(g0.ranges)) {
+    if (m.df[[i,"g0_assay_method"]] == as.numeric(j)) {
+      if (m.df[[i,"g0"]] > g0.ranges[[1,j]]) {
+        m.df[[i,"g0_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"g0"]] < g0.ranges[[2,j]]) {
+        m.df[[i,"g0_tech_flag"]] <- 1
+      }
+      if (m.df[[i,"g0"]] > g0.ranges[[3,j]]) {
+        m.df[[i,"g0_log_flag"]] <- 1
+      }
+      if (m.df[[i,"g0"]] < g0.ranges[[4,j]]) {
+        m.df[[i,"g0_log_flag"]] <- 1
+    }
+    }
+  }
+}
+datatable(g0.ranges, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+tmp <- m.df[m.df$g0_tech_flag == 1,]
+tmp <- tmp[,c("sample_id", "g0", "g0_assay_method")]
+
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$g0_tech_flag == 1)), "values that are outside of fasting glucose technical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the fasting glucose technical limits\n\n")
+
+
+tmp <- m.df[m.df$g0_log_flag == 1,]
+tmp <- tmp[,c("sample_id", "g0", "g0_assay_method")]
+if(nrow(tmp) > 0) {
+ message(paste("\n\nThere are", length(which(m.df$g0_log_flag == 1)), "values that are outside of fasting glucose logical limits\n\n"))
+  datatable(tmp, rownames = FALSE, options = list(searching = FALSE, columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+} else 
+   message("\n\nThere are no values outside of the fasting glucose logical limits\n\n")
+```
+
+
+## Remove cases without complete data
+```{r eda_remove_incomplete, echo=FALSE, error=FALSE, message=TRUE, out.width="50%"}
+completeidx = complete.cases(m.df[, c(age, bmi, traitnames)])
+if(sum(!completeidx)>0) {
+    warning(paste("Removing", sum(!completeidx), "records due to incomplete data"))
+    for(ii in c(age, bmi, traitnames)) {
+        tmpidx = complete.cases(m.df[, ii])
+        if(sum(!tmpidx)>0) message(paste(ii, "has", sum(!tmpidx), "missing records"))
+    }
+    m.df <- m.df[completeidx, ]
+}
+
+    
+## Remove data according to the variable Exclusion_Filter
+#m.df <- m.df[! m.df$Exclusion_Filter == 1, ]
+
+message(paste("There are ",nrow(m.df), "cases remaining in the dataset after removal of incomplete cases."))
+```
+
+## Raw Trait Values - Prior to any adjustment by method/age or transformation
+
+### Age and BMI
+```{r eda_raw_data_agebmi, echo=FALSE, error=FALSE, message=FALSE, out.width="50%"}
+# Data before any transformation
+
+## Age and BMI
+datatable(proc_means(m.df, vars = "age", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE, q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+ggplot(data = subset(m.df, !is.na(age)), aes(x = age)) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7)
+ggplot(data = subset(m.df, !is.na(age)), aes(y = age)) + 
+  geom_boxplot(position=position_dodge(1))
+
+
+datatable(proc_means(m.df, vars = "bmi", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE,
+           q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+ggplot(data = subset(m.df, !is.na(bmi)), aes(x = bmi)) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7)
+ggplot(data = subset(m.df, !is.na(bmi)), aes(y = bmi)) + 
+  geom_boxplot(position=position_dodge(1))
+```           
+
+### Testosterone
+```{r eda_raw_data_t, echo=FALSE, error=FALSE, message=FALSE, out.width="50%"}
+datatable(proc_means(m.df, vars = "T", by = "T_assay_method", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE,
+           q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+
+print(paste("There are", length(which(m.df$T.z.flag == 1)), "values that are outside of 4SD from mean"))
+for (i in 1:length(m.df[["T.z.flag"]])[1]) {
+  if (m.df[["T.z.flag"]][i] == 1) {
+    print(paste(m.df[["sample_id"]][i], "-",m.df[["T"]][i],"in assay",m.df[["T_assay_method"]][i]))
+  }
+}
+print(xyplot(T ~ as.factor(T_assay_method),data = m.df, main="Testosterone Distribution by Assay Method"))
+
+ggplot(data = subset(m.df, !is.na(T)), aes(x = T, group = T_assay_method, fill = as.factor(T_assay_method))) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7) + facet_wrap(~T_assay_method, nrow = length(summary(na.omit(m.df$T_assay_method)))) + ggtitle("Testosterone Histogram by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(T)), aes(x = as.factor(T_assay_method), y = T, fill = as.factor(T_assay_method))) + 
+  geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$T.z.flag),position=position_jitter(width=0))+
+  geom_text_repel(aes(label=ifelse(T.z.flag == 1,as.character(T),'')), size = 3) + ggtitle("Testosterone Boxplot by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(T)), aes(x = as.factor(T_assay_method), y = log(T), fill = as.factor(T_assay_method))) + 
+  geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$T.z.flag),position=position_jitter(width=0)) + ggtitle("Log of Testosterone Boxplot by Assay Method")
+```
+
+### SHBG
+```{r eda_raw_data_shbg, echo=FALSE, error=FALSE, message=FALSE, out.width="50%"}
+datatable(proc_means(m.df, vars = "shbg", by = "shbg_assay_method", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE,
+           q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+print(paste("There are", length(which(m.df$shbg.z.flag == 1)), "values that are outside of 4SD from mean"))
+for (i in 1:length(m.df[["shbg.z.flag"]])[1]) {
+  if (m.df[["shbg.z.flag"]][i] == 1) {
+    print(paste(m.df[["sample_id"]][i], "-",m.df[["shbg"]][i],"in assay",m.df[["shbg_assay_method"]][i]))
+  }
+}
+print(xyplot(shbg ~ as.factor(shbg_assay_method),data = m.df, main="SHBG Distribution by Assay Method"))
+
+ggplot(data = subset(m.df, !is.na(shbg)), aes(x = shbg, group = shbg_assay_method, fill = as.factor(shbg_assay_method))) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7) + facet_wrap(~shbg_assay_method, nrow = length(summary(na.omit(m.df$shbg_assay_method))))  + ggtitle("SHBG Histogram by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(shbg)), aes(x = as.factor(shbg_assay_method), y = shbg, fill = as.factor(shbg_assay_method))) + 
+  geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$shbg.z.flag),position=position_jitter(width=0)) +
+  geom_text_repel(aes(label=ifelse(shbg.z.flag == 1,as.character(shbg),'')), size = 3) + ggtitle("SHBG Boxplot by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(shbg)), aes(x = as.factor(shbg_assay_method), y = log(shbg), fill = as.factor(shbg_assay_method))) + 
+  geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$shbg.z.flag),position=position_jitter(width=0)) + ggtitle("Log of SHBG Boxplot by Assay Method")
+```
+
+### DHEAS
+```{r eda_raw_data_dheas, echo=FALSE, error=FALSE, message=FALSE, out.width="50%"}
+datatable(proc_means(m.df, vars = "dheas", by = "dheas_assay_method", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE, q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+print(paste("There are", length(which(m.df$dheas.z.flag == 1)), "values that are outside of 4SD from mean"))
+for (i in 1:length(m.df[["dheas.z.flag"]])[1]) {
+  if (m.df[["dheas.z.flag"]][i] == 1) {
+    print(paste(m.df[["sample_id"]][i], "-",m.df[["dheas"]][i],"in assay",m.df[["dheas_assay_method"]][i]))
+  }
+}
+
+print(xyplot(dheas ~ as.factor(dheas_assay_method),data = m.df, main="DHEAS Distribution by Assay Method"))
+
+ggplot(data = subset(m.df, !is.na(dheas)), aes(x = dheas, group = dheas_assay_method, fill = as.factor(dheas_assay_method))) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7) + facet_wrap(~dheas_assay_method, nrow = length(summary(na.omit(m.df$dheas_assay_method))))  + ggtitle("DHEAS Histogram by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(dheas)), aes(x = as.factor(dheas_assay_method), y = dheas, fill = as.factor(dheas_assay_method))) + 
+  geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$dheas.z.flag),position=position_jitter(width=0)) +
+  geom_text_repel(aes(label=ifelse(dheas.z.flag == 1,as.character(dheas),'')), size = 3) + ggtitle("DHEAS Boxplot by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(dheas)), aes(x = as.factor(dheas_assay_method), y = log(dheas), fill = as.factor(dheas_assay_method))) + 
+  geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$dheas.z.flag),position=position_jitter(width=0)) + ggtitle("Log of DHEAS Boxplot by Assay Method")
+```
+
+### LH
+```{r eda_raw_data_lh, echo=FALSE, error=FALSE, message=FALSE, out.width="50%"}
+datatable(proc_means(m.df, vars = "lh", by = "lh_assay_method", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE,
+           q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+print(paste("There are", length(which(m.df$lh.z.flag == 1)), "values that are outside of 4SD from mean"))
+for (i in 1:length(m.df[["lh.z.flag"]])[1]) {
+  if (m.df[["lh.z.flag"]][i] == 1) {
+    print(paste(m.df[["sample_id"]][i], "-",m.df[["lh"]][i],"in assay",m.df[["lh_assay_method"]][i]))
+  }
+}
+print(xyplot(lh ~ as.factor(lh_assay_method),data = m.df, main="LH Distribution by Assay Method"))
+
+ggplot(data = subset(m.df, !is.na(lh)), aes(x = lh, group = lh_assay_method, fill = as.factor(lh_assay_method))) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7) + facet_wrap(~lh_assay_method, nrow = length(summary(na.omit(m.df$lh_assay_method))))  + ggtitle("LH Histogram by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(lh)), aes(x = as.factor(lh_assay_method), y = lh, fill = as.factor(lh_assay_method))) +   geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$lh.z.flag),position=position_jitter(width=0)) +
+  geom_text_repel(aes(label=ifelse(lh.z.flag == 1,as.character(lh),'')), size = 3) + ggtitle("LH Boxplot by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(lh)), aes(x = as.factor(lh_assay_method), y = log(lh), fill = as.factor(lh_assay_method))) +   geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$lh.z.flag),position=position_jitter(width=0)) + ggtitle("Log of LH Boxplot by Assay Method")
+
+```
+
+### FSH
+```{r eda_raw_data_fsh, echo=FALSE, error=FALSE, message=FALSE, out.width="50%"}
+datatable(proc_means(m.df, vars = "fsh", by = "fsh_assay_method", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE,
+           q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+print(paste("There are", length(which(m.df$fsh.z.flag == 1)), "values that are outside of 4SD from mean"))
+for (i in 1:length(m.df[["fsh.z.flag"]])[1]) {
+  if (m.df[["fsh.z.flag"]][i] == 1) {
+    print(paste(m.df[["sample_id"]][i], "-",m.df[["fsh"]][i],"in assay",m.df[["fsh_assay_method"]][i]))
+  }
+}
+
+print(xyplot(fsh ~ as.factor(fsh_assay_method),data = m.df, main="FSH Distribution by Assay Method"))
+
+ggplot(data = subset(m.df, !is.na(fsh)), aes(x = fsh, group = fsh_assay_method, fill = as.factor(fsh_assay_method))) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7) + facet_wrap(~fsh_assay_method, nrow = length(summary(na.omit(m.df$fsh_assay_method))))  + ggtitle("FSH Histogram by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(fsh)), aes(x = as.factor(fsh_assay_method), y = fsh, fill = as.factor(fsh_assay_method))) + 
+  geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$fsh.z.flag),position=position_jitter(width=0)) +
+  geom_text_repel(aes(label=ifelse(fsh.z.flag == 1,as.character(fsh),'')), size = 3) + ggtitle("FSH Boxplot by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(fsh)), aes(x = as.factor(fsh_assay_method), y = log(fsh), fill = as.factor(fsh_assay_method))) + 
+  geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$fsh.z.flag),position=position_jitter(width=0)) + ggtitle("Log of FSH Boxplot by Assay Method")
+```
+
+### Fasting Insulin
+```{r eda_raw_data_i0, echo=FALSE, error=FALSE, message=FALSE, out.width="50%"}
+datatable(proc_means(m.df, vars = "i0", by = "i0_assay_method", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE,
+           q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+print(paste("There are", length(which(m.df$i0.z.flag == 1)), "values that are outside of 4SD from mean"))
+for (i in 1:length(m.df[["i0.z.flag"]])[1]) {
+  if (m.df[["i0.z.flag"]][i] == 1) {
+    print(paste(m.df[["sample_id"]][i], "-",m.df[["i0"]][i],"in assay",m.df[["i0_assay_method"]][i]))
+  }
+}
+print(xyplot(i0 ~ as.factor(i0_assay_method),data = m.df, main="Fasting Insulin Distribution by Assay Method"))
+
+ggplot(data = subset(m.df, !is.na(i0)), aes(x = i0, group = i0_assay_method, fill = as.factor(i0_assay_method))) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7) + facet_wrap(~i0_assay_method, nrow = length(summary(na.omit(m.df$i0_assay_method))))  + ggtitle("Fasting Insulin Histogram by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(i0)), aes(x = as.factor(i0_assay_method), y = i0, fill = as.factor(i0_assay_method))) +   geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$i0.z.flag),position=position_jitter(width=0)) +
+  geom_text_repel(aes(label=ifelse(i0.z.flag == 1,as.character(i0),'')), size = 3) + ggtitle("Fasting Insulin Boxplot by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(i0)), aes(x = as.factor(i0_assay_method), y = log(i0), fill = as.factor(i0_assay_method))) +   geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$i0.z.flag),position=position_jitter(width=0)) + ggtitle("Log of Fasting Insulin Boxplot by Assay Method")
+```
+
+### Fasting Glucose
+```{r eda_raw_data_g0, echo=FALSE, error=FALSE, message=FALSE, out.width="50%"}
+datatable(proc_means(m.df, vars = "g0", by = "g0_assay_method", n=TRUE, nmiss = TRUE, mean=TRUE,  sd = TRUE, min = TRUE, max = TRUE, median = TRUE,
+           q1 = TRUE, q3 = TRUE), rownames = FALSE, options = list(dom = 't', columnDefs = list(list(className = 'dt-center', targets = "_all"))))
+print(paste("There are", length(which(m.df$g0.z.flag == 1)), "values that are outside of 4SD from mean"))
+for (i in 1:length(m.df[["g0.z.flag"]])[1]) {
+  if (m.df[["g0.z.flag"]][i] == 1) {
+    print(paste(m.df[["sample_id"]][i], "-",m.df[["g0"]][i],"in assay",m.df[["g0_assay_method"]][i]))
+  }
+}
+print(xyplot(g0 ~ as.factor(g0_assay_method),data = m.df, main="Fasting Glucose Distribution by Assay Method"))
+
+ggplot(data = subset(m.df, !is.na(g0)), aes(x = g0, group = g0_assay_method, fill = as.factor(g0_assay_method))) +
+  geom_histogram(aes(y=..density..), colour="black", fill="white") +
+  geom_density(alpha = 0.7) + facet_wrap(~g0_assay_method, nrow = length(summary(na.omit(m.df$g0_assay_method)))) + ggtitle("Fasting Glucose Histogram by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(g0)), aes(x = as.factor(g0_assay_method), y = g0, fill = as.factor(g0_assay_method))) +   geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$g0.z.flag),position=position_jitter(width=0)) +
+  geom_text_repel(aes(label=ifelse(g0.z.flag == 1,as.character(g0),'')), size = 3) + ggtitle("Fasting Glucose Boxplot by Assay Method")
+
+ggplot(data = subset(m.df, !is.na(g0)), aes(x = as.factor(g0_assay_method), y = log(g0), fill = as.factor(g0_assay_method))) +   geom_boxplot(position=position_dodge(1), outlier.shape=NA) +
+  geom_jitter(color=factor(m.df$g0.z.flag),position=position_jitter(width=0)) + ggtitle("Log of Fasting Glucose by Assay Method")
+
+```
+
+
