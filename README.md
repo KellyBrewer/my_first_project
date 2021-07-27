@@ -1,2 +1,2 @@
-# AMH
-very important files
+# Practice places
+Practicing using Github
